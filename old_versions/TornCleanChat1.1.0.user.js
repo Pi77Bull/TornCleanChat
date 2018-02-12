@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Torn Clean Chat
-// @version      1.1.1
+// @version      1.1
 // @description  Makes the chat in Torn more readable.
 // @author       Pi77Bull
 // @match        https://www.torn.com/*
@@ -90,7 +90,7 @@ function addObserver(index) {
       words = chats[index].children[chats[index].childElementCount - 2].children[1].innerText.toLowerCase().split(" ");
       for (let mention of mentions) {
         for (let word of words) {
-          if (word.includes(mention.toLowerCase())) {
+          if (word.includes(mention)) {
             mentionSound.play();
             break;
           }
