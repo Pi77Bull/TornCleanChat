@@ -1,8 +1,9 @@
-# Torn Clean Chat
+# Torn Clean Chat 1.1
 
 ## Features
-- Added contrast between messages*
+- higher contrast between messages*
 - increased font size*
+- play sound* when a keyword* is mentioned in faction chat 
 
 _*can be set by the user_
 
@@ -23,9 +24,7 @@ You will need a userscript manager to install this script. I recommend using Tam
 
 ## Bugs, issues and ideas
 
-**Know bugs:**
+**No known bugs**
 
-- After opening a new chat a page reload is required (Will be fixed when I have time)
-
-If you find any other issues, have questions or ideas send me a message on Torn: 
+If you find any issues, have questions or ideas send me a message on Torn: 
 **[Pi77Bull [2082618]](https://www.torn.com/profiles.php?XID=2082618)**
