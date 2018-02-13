@@ -1,4 +1,4 @@
-# Torn Clean Chat 1.1.1
+# Torn Clean Chat 1.2.0
 
 ## Features
 - higher contrast between messages*
@@ -6,9 +6,6 @@
 - play sound* when a keyword* is mentioned in faction chat 
 
 _*can be set by the user (see **Usersettings/Information** section below)_
-
-###### Coming soon:
-- convenient way to change variables
 
 ## Requirements
 You will need a userscript manager to install this script. I recommend using Tampermonkey.
@@ -21,43 +18,21 @@ You will need a userscript manager to install this script. I recommend using Tam
 
 [Install Torn Clean Chat](https://github.com/Pi77Bull/TornCleanChat/raw/master/TornCleanChat.user.js)
 
-## Screenshot
+## Screenshots
 
-![Torn Clean Chat](https://s5.postimg.org/s9jnistqf/chat.png)
+![Torn Chat](https://s5.postimg.org/s9jnistqf/chat.png)
+
+![Torn Clean Chat Settings](https://s5.postimg.org/5885y8nc7/settings.png)
 
 ## Usersettings/Information
 
-###### Color
+To change the settings navigate to the Torn website and click on the cogwheel icon in the upper right corner.
+Scroll down to the bottom of the page and you will find a new menu - 'Torn Clean Chat Settings'.
 
-At the top of the script look for the line that reads:
-```javascript
-let color = "#CFCFCF";
-```
-Change the hexadecimal color to your liking and save.
+When you change the 'Color' setting make sure to enter a pound symbol (#) first followed by a valid hexadecimal color.
 
-###### Font size
-
-At the top of the script look for the line that reads:
-```javascript
-let fontSize = 16;
-```
-Change the number to your liking and save.
-
-###### Keywords
-
-At the top of the script look for the line that reads:
-```javascript
-let mentions = ["pi77bull", "pi77", "pb"];
-```
-Add the words you want to be notified about when mentioned in the faction chat (e.g. your name and abbreviations). Capitalization does **not** matter. **The chat must be open for this to work.**
-
-###### Sound
-
-At the top of the script look for the line that reads:
-```javascript
-mentionSound.src = "https://www.myinstants.com/media/sounds/you_were_poked_niMJJKH.mp3";
-```
-Change the URL to a sound of your liking. It is played when the keywords are mentioned in the faction chat. **The chat must be open for this to work.**
+When changing the 'Keywords' setting make sure to separate each word with a comma (,).
+When keywords are sent in the faction chat the sound specified in the 'Sound' setting is played. **This does only work if the chat is opened.**
 
 ## Bugs, issues and ideas
 
