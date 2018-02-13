@@ -1,4 +1,4 @@
-# Torn Clean Chat 1.2.0
+# Torn Clean Chat 1.2.1
 
 ## Features
 - higher contrast between messages*
