@@ -7,6 +7,9 @@
 
 _*can be set by the user (see **Usersettings/Information** section below)_
 
+###### Coming soon:
+- convenient way to change variables
+
 ## Requirements
 You will need a userscript manager to install this script. I recommend using Tampermonkey.
 
