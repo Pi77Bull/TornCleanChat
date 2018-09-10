@@ -1,4 +1,4 @@
-# Torn Clean Chat 1.2.1
+# Torn Clean Chat 1.3.0
 
 ## Features
 - higher contrast between messages*
@@ -20,9 +20,9 @@ You will need a userscript manager to install this script. I recommend using Tam
 
 ## Screenshots
 
-![Torn Chat](https://s5.postimg.org/s9jnistqf/chat.png)
+![Torn Chat](https://i.imgur.com/1dr67tU.png)
 
-![Torn Clean Chat Settings](https://s5.postimg.org/5885y8nc7/settings.png)
+![Torn Clean Chat Settings](https://i.imgur.com/Aart71i.png)
 
 ## Usersettings/Information
 
@@ -35,8 +35,6 @@ When changing the 'Keywords' setting make sure to separate each word with a comm
 When keywords are sent in the faction chat the sound specified in the 'Sound' setting is played. **This does only work if the chat is opened.**
 
 ## Bugs, issues and ideas
-
-**No known bugs**
 
 If you find any issues, have questions or ideas send me a message on Torn: 
 **[Pi77Bull [2082618]](https://www.torn.com/profiles.php?XID=2082618)**

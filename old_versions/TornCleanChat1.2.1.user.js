@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Torn Clean Chat
-// @version      1.2.0
+// @version      1.2.1
 // @description  Makes the chat in Torn more readable.
 // @author       Pi77Bull
 // @match        https://www.torn.com/*
@@ -68,7 +68,6 @@ if (window.location.pathname == "/preferences.php") {
     style_button.innerHTML = ".tccButton { width: 128px; background: #D5D5D5; padding: 4px 0px 4px 0px; margin: 2px 2px 0px 2px; border: 2px solid #999999; }";
     document.getElementsByTagName("head")[0].appendChild(style_button);
 
-    let cw = document.getElementById("mainContainer").children[0];
     let clear = document.createElement("div");
     clear.className = "clear";
     let settings = document.createElement("div");
@@ -157,6 +156,7 @@ if (window.location.pathname == "/preferences.php") {
     div_save.appendChild(button_reset);
     settings.appendChild(div_save);
 
+    let cw = document.getElementById("mainContainer").children[document.getElementById("mainContainer").childElementCount - 2];
     cw.appendChild(clear);
     cw.appendChild(settings);
 
