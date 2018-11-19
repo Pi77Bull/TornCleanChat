@@ -1,86 +1,96 @@
 // ==UserScript==
 // @name         Torn Clean Chat
-// @version      1.3.0
+// @version      2.0.0
 // @namespace    https://github.com/Pi77Bull
 // @description  Makes the chat in Torn more readable.
 // @author       Pi77Bull
 // @match        https://www.torn.com/*
-// @require      https://raw.githubusercontent.com/marcj/css-element-queries/master/src/ResizeSensor.js
-// @require      https://raw.githubusercontent.com/marcj/css-element-queries/master/src/ElementQueries.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
+let settings = JSON.parse(localStorage.getItem("tccSettings"));
+
+if (!settings) {
+    settings = {
+        "fontsize": "16",
+        "color": "#dadada",
+        "fontfamily": "Segoe UI",
+        "keywords": ["help", "911"],
+        "sound": "https://www.myinstants.com/media/sounds/tethys.mp3"
+    };
+}
+
+let mentionSound = document.createElement("audio");
+mentionSound.src = settings.sound;
+player.preload = "auto";
+
 GM_addStyle(`
 .tcc_option {
-    height: 30px;
-    font-size: 12px;
-    line-height: 30px;
-    display: inline-block;
-    box-sizing: border-box;
-    padding: 0 8px;
-}
-
-.tcc_option-l {
-    width: 50%;
-}
-
-.tcc_option-sm {
-    width: 100%;
+height: 30px;
+font-size: 12px;
+line-height: 30px;
+display: inline-block;
+box-sizing: border-box;
+padding: 0 8px;
+width: 50%;
 }
 
 .tcc_input {
-    width: 75%;
-    height: 20px;
-    float: right;
-    margin-top: 4px;
-    border: 1px solid #cccccc;
-    font-size: 12px;
-    padding: 0 2px;
+width: 75%;
+height: 20px;
+float: right;
+margin-top: 4px;
+border: 1px solid #cccccc;
+font-size: 12px;
+padding: 0 2px;
 }
 
 .tcc_footer {
-    padding: 5px 8px;
+padding: 5px 8px;
 }
 
 .tcc_status {
-    display: none;
+display: none;
 }
 
 .tcc_status-saved {
-    display: inline-block;
-    font-size: 24px;
-    line-height: 16px;
-    margin-left: 18px;
-    animation-name: tccStatusSaved;
-    animation-duration: 4s;
+display: inline-block;
+font-size: 24px;
+line-height: 16px;
+margin-left: 18px;
+animation-name: tccStatusSaved;
+animation-duration: 4s;
 }
 
 @keyframes tccStatusSaved {
-    0% {color: #008000ff;}
-    50% {color: #008000ff;}
-    100% {color: #00800000;}
+0% {color: #008000ff;}
+50% {color: #008000ff;}
+100% {color: #00800000;}
+}
+
+@media screen and (max-width:1000px) {
+.tcc_option {
+width: 100%;
 }
 `)
 
-let settings = JSON.parse(localStorage.getItem("tccSettings"));
-
 if (window.location.pathname == "/preferences.php") {
     $(".content-wrapper").append(`
-<div class="m-top10">
+<div id="tcc_settings" class="m-top10">
 <div class="cont-gray border-round">
 <div class="title-black top-round">Torn Clean Chat Settings</div>
 <div>
 
 <div class="tcc_option">
-Font size: <input class="tcc_input" type="text">
+Font size: <input id="fontsize" class="tcc_input" type="text" placeholder="16">
 </div><div class="tcc_option">
-Color: <input class="tcc_input" type="text">
+Color: <input id="color" class="tcc_input" type="text" placeholder="#dadada OR rgb(218,218,218)">
 </div><div class="tcc_option">
-Font family: <input class="tcc_input" type="text">
+Font family: <input id="fontfamily" class="tcc_input" type="text" placeholder="Segoe UI (must be installed)">
 </div><div class="tcc_option">
-Keywords: <input class="tcc_input" type="text">
+Keywords: <input id="keywords" class="tcc_input" type="text" placeholder="pi77bull,help,911">
 </div><div class="tcc_option">
-Sound: <input class="tcc_input" type="text">
+Sound: <input id="sound" class="tcc_input" type="text" placeholder="www.example.com/sound.mp3">
 </div>
 
 </div>
@@ -91,33 +101,23 @@ Sound: <input class="tcc_input" type="text">
 </div></div></div>
 `);
 
-    function sizeToFit() {
-        if ($(".content-wrapper").width() >= 784) { //desktop
-            $(".tcc_option").removeClass().addClass("tcc_option tcc_option-l");
-        } else if ($(".content-wrapper").width() >= 386) { //tablet
-            $(".tcc_option").removeClass().addClass("tcc_option tcc_option-sm");
-        } else if ($(".content-wrapper").width() >= 320) { //phone
-            $(".tcc_option").removeClass().addClass("tcc_option tcc_option-sm");
+
+    if (settings) {
+        for (let setting in settings) {
+            $(`#${setting}`).val(settings[setting]);
         }
     }
 
-    sizeToFit();
-    new ResizeSensor($(".content-wrapper"), function () {
-        sizeToFit();
-    });
-
-    if (settings) {
-        $.each(settings, function (i, j) {
-            $(".tcc_option").eq(i).children().val(j);
-        });
-    }
-
     $("#tccSave").on("click", function () {
-        let arr = [];
-        $(".tcc_option").each(function () {
-            arr.push($(this).eq(0).children().val());
-        });
-        localStorage.setItem("tccSettings", JSON.stringify(arr));
+        settings = {
+            "fontsize": $("#tcc_settings #fontsize").val(),
+            "color": $("#tcc_settings #color").val(),
+            "fontfamily": $("#tcc_settings #fontfamily").val(),
+            "keywords": $("#tcc_settings #keywords").val().split(",").map(item => item.trim().toLowerCase()),
+            "sound": $("#tcc_settings #sound").val()
+        };
+        localStorage.setItem("tccSettings", JSON.stringify(settings));
+
         $("#tccStatus").removeClass().addClass("tcc_status-saved");
         setTimeout(function () {
             $("#tccStatus").removeClass().addClass("tcc_status");
@@ -132,38 +132,68 @@ Sound: <input class="tcc_input" type="text">
 
 if (settings) {
     GM_addStyle(`
-.chat-box-content_2C5UJ {
-    font-size: ${settings[0]}px;
-    font-family: ${settings[2]};
+.message_oP8oM {
+font-size: ${settings.fontsize}px;
+font-family: ${settings.fontfamily};
 }
 
 .chat-box-content_2C5UJ .message_oP8oM {
-    height: auto;
-    padding-bottom: 2px;
-    line-height: ${Number(settings[0]) + 2}px;
+height: auto;
+padding-bottom: 2px;
+line-height: ${Number(settings.fontsize) + 2}px;
 }
 
-.message_oP8oM:nth-child(2n+0) {
-    background-color: ${settings[1]};
+.even .message_oP8oM:nth-child(even),
+.odd .message_oP8oM:nth-child(odd) {
+background-color: ${settings.color};
 }
 `);
-
-    $(".viewport_1F0WI").each(function () {
-        $(this)[0].scrollTop = $(this)[0].scrollHeight;
-    });
 }
 
 
 
+function addMessageObserver(j) {
+    var messageObserver = new MutationObserver(function(mutations) {
+        //console.log($(mutations[0].addedNodes[0]).find("#changedSpan").text());
 
-var obs = new MutationObserver(function (mutations, observer) {
-    $.each(mutations, function (i, mutation) {
-        console.log(mutation);
+        for (let keyword of settings.keywords) {
+            if ($(mutations[0].addedNodes[0]).find("#changedSpan").text().toLowerCase().includes(keyword)) {
+                mentionSound.play();
+                break;
+            }
+        }
+
+        $(j).find(".overview_1MoPG").toggleClass("even odd");
     });
+    messageObserver.observe($(j).find(".overview_1MoPG")[0], { childList: true });
+    $(j).find(".overview_1MoPG").addClass("even");
+    $(j).find(".viewport_1F0WI")[0].scrollTop = $(j).find(".viewport_1F0WI")[0].scrollHeight;
+    console.log(`Observing ${$(j).find(".name_3A6VH").text()}`);
+}
+
+function addChatboxObserver(j) {
+    var chatboxObserver = new MutationObserver(function(mutations) {
+        //console.log(mutations);
+        if (mutations[0].attributeName == "class" && $(j).hasClass("chat-active_1Sufk")) {
+            addMessageObserver(j);
+        }
+    });
+    chatboxObserver.observe(j, { attributes: true });
+
+    if ($(j).hasClass("chat-active_1Sufk")) {
+        addMessageObserver(j);
+    }
+}
+
+
+$(".chat-box_Wjbn9:not(.chat-box-settings_Ogzjk)").each(function(i, j) {
+    addChatboxObserver(j);
 });
 
-var canvasElement = $(".chat-box-wrap_20_R_")[0];
-obs.observe(canvasElement, {
-    childList: true,
-    subtree: false
+var newchatObserver = new MutationObserver(function(mutations) {
+    if (mutations[0].addedNodes.length == 1) {
+        addChatboxObserver(mutations[0].addedNodes[0]);
+    }
 });
+
+newchatObserver.observe($("#chatRoot >")[0], { childList: true });
